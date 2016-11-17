@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+  	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<bean name="integralTriggerListener"
+		class="com.csc.integral.batch.listener.IntegralTriggerListener" >
+		<property name="jobQueueSize">
+			<map>
+				<entry key="DEFAULT.spoolingFileJob" value="1" />
+				<entry key="DEFAULT.jobSubmitPollingJob" value="1" />
+			</map>
+		</property>
+		<property name="groupQueueSize">
+			<map>
+				<entry key="NIGHT" value="1" />
+				<entry key="QBATCH" value="1" />
+				<entry key="QINTER" value="1" />
+				<entry key="AT" value="1" />
+			</map>
+		</property>
+		<property name="reschedulableVetoedGroups">
+			<set>
+				<value>NIGHT</value>
+				<value>QBATCH</value>
+				<value>QINTER</value>
+				<value>AT</value>
+			</set>
+		</property>
+		<property name="reschedulableVetoedJobs">
+			<set>
+				<value>NIGHT</value>
+				<value>QBATCH</value>
+				<value>QINTER</value>
+				<value>AT</value>
+			</set>
+		</property>
+		<property name="reschedulingInterval" value="60000"/>
+	</bean>	
+	
+	<bean name="integralJobListener" class="com.csc.integral.batch.listener.IntegralJobListener" />	
+	
+</beans>

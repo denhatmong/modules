@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+  	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:scenarios/scheduling/quartz/quartz.properties" />
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+	</bean>
+    
+	<bean id="IntegralSchedulerFactoryBean" parent="abstractMultiThreadedSchedulerFactoryBean">
+		<property name="schedulerName" value="INTEGRAL" />
+		<property name="quartzProperties">
+			<props merge="true">
+				<prop key="org.quartz.scheduler.instanceName">IntegralQueueScheduler</prop>
+			</props>
+		</property>
+		<property name="triggers">
+	        <list>
+	            <ref bean="spoolingFileJobTrigger" />
+	            <ref bean="jobSubmitPollingJobTrigger" />
+	        </list>
+	    </property>
+	    <property name="globalTriggerListeners">
+	    	<list>
+	    		<ref bean="integralTriggerListener"/>
+	    	</list>
+	    </property>
+	    <property name="globalJobListeners">
+	    	<list>
+	    		<ref bean="integralJobListener"/>
+	    	</list>
+	    </property>
+	</bean>
+
+</beans>

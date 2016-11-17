@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+  	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+    
+    <!-- ====================================================================================== -->
+	<!-- =============================   Multi threaded scheduler     ========================= -->
+	<!-- ====================================================================================== -->
+	
+    <bean id="abstractMultiThreadedSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" abstract="true">
+    	<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.scheduler.rmi.export">${org.quartz.scheduler.rmi.export}</prop>
+				<prop key="org.quartz.scheduler.rmi.proxy">${org.quartz.scheduler.rmi.proxy}</prop>
+				<prop key="org.quartz.scheduler.wrapJobExecutionInUserTransaction">${org.quartz.scheduler.wrapJobExecutionInUserTransaction}</prop>
+				<prop key="org.quartz.threadPool.class">${org.quartz.threadPool.multiThreaded.class}</prop>
+				<prop key="org.quartz.threadPool.threadCount">${org.quartz.threadPool.multiThreaded.threadCount}</prop>
+				<prop key="org.quartz.threadPool.threadPriority">${org.quartz.threadPool.multiThreaded.threadPriority}</prop>
+				<prop key="org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread">${org.quartz.threadPool.multiThreaded.threadsInheritContextClassLoaderOfInitializingThread}</prop>
+				<prop key="org.quartz.jobStore.misfireThreshold">${org.quartz.jobStore.misfireThreshold}</prop>
+				<prop key="org.quartz.jobStore.class">${org.quartz.jobStore.class}</prop>
+				<prop key="org.quartz.jobStore.dataSource">${org.quartz.jobStore.dataSource}</prop>
+				<prop key="org.quartz.dataSource.myDS.driver">${org.quartz.dataSource.myDS.driver}</prop>
+				<prop key="org.quartz.dataSource.myDS.URL">${org.quartz.dataSource.myDS.URL}</prop>
+				<prop key="org.quartz.dataSource.myDS.user">${org.quartz.dataSource.myDS.user}</prop>
+				<prop key="org.quartz.dataSource.myDS.password">${org.quartz.dataSource.myDS.password}</prop>
+				<prop key="org.quartz.jobStore.tablePrefix">${org.quartz.jobStore.tablePrefix}</prop>
+			</props>
+		</property>
+		<property name="applicationContextSchedulerContextKey" value="applicationContext"/>
+    </bean>
+    
+	
+	
+	<!-- ====================================================================================== -->
+	<!-- =============================   Single threaded scheduler     ======================== -->
+	<!-- ====================================================================================== -->
+	
+	<bean id="abstractSingleThreadedSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" abstract="true">
+    	<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.scheduler.rmi.export">${org.quartz.scheduler.rmi.export}</prop>
+				<prop key="org.quartz.scheduler.rmi.proxy">${org.quartz.scheduler.rmi.proxy}</prop>
+				<prop key="org.quartz.scheduler.wrapJobExecutionInUserTransaction">${org.quartz.scheduler.wrapJobExecutionInUserTransaction}</prop>
+				<prop key="org.quartz.threadPool.class">${org.quartz.threadPool.singleThreaded.class}</prop>
+				<prop key="org.quartz.threadPool.threadCount">${org.quartz.threadPool.singleThreaded.threadCount}</prop>
+				<prop key="org.quartz.threadPool.threadPriority">${org.quartz.threadPool.singleThreaded.threadPriority}</prop>
+				<prop key="org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread">${org.quartz.threadPool.singleThreaded.threadsInheritContextClassLoaderOfInitializingThread}</prop>
+				<prop key="org.quartz.jobStore.misfireThreshold">${org.quartz.jobStore.misfireThreshold}</prop>
+				<prop key="org.quartz.jobStore.class">${org.quartz.jobStore.class}</prop>
+				<prop key="org.quartz.jobStore.dataSource">${org.quartz.jobStore.dataSource}</prop>
+				<prop key="org.quartz.dataSource.myDS.driver">${org.quartz.dataSource.myDS.driver}</prop>
+				<prop key="org.quartz.dataSource.myDS.URL">${org.quartz.dataSource.myDS.URL}</prop>
+				<prop key="org.quartz.dataSource.myDS.user">${org.quartz.dataSource.myDS.user}</prop>
+				<prop key="org.quartz.dataSource.myDS.password">${org.quartz.dataSource.myDS.password}</prop>
+			</props>
+		</property>
+		<property name="applicationContextSchedulerContextKey" value="applicationContext"/>
+    </bean>
+
+</beans>
